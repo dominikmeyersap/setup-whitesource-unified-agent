@@ -41,4 +41,5 @@ jobs:
       - uses: ./
         id: setup-ua
       - run: echo ${{ steps.setup-ua.outputs.jar-path }}
+      - run: ls -la ${{ steps.setup-ua.outputs.jar-path }}
       - run: java -jar ${{ steps.setup-ua.outputs.jar-path }}
