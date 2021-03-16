@@ -1,3 +1,21 @@
+# setup-whitesource-unified-agent
+
+Currently [Unified Agent](https://whitesource.atlassian.net/wiki/spaces/WD/pages/804814917/Unified+Agent+Overview) does not offer an out-of-the-box GitHub Action.
+They offer a [dockerized version](https://whitesource.atlassian.net/wiki/spaces/WD/pages/1140852201/Getting+Started+with+the+Unified+Agent#Running-the-Unified-Agent-in-a-Docker-Container) though but this version does not support Docker scanning as this would involve `dind` which they seem to avoid until now.
+
+So, in order to do docker scanning, the unified agent `.jar` needs to lie on the runner.
+
+## Inputs
+
+Currently you can only input `unified-agent-version` which defaults to latest.
+
+## Outputs
+
+`jar-path` is the only output atm and signals the location of the JAR for further steps.
+
+
+---
+
 <p align="center">
   <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
 </p>

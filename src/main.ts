@@ -1,16 +1,12 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import * as installer from './installer'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
-
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    core.setOutput('time', new Date().toTimeString())
+    const uaVersion: string = core.getInput('unified-agent-version') || 'latest'
+    core.debug(`Using Unified Agent in version: ${uaVersion}`)
+    const toolPath = await installer.getUnifiedAgent(uaVersion)
+    core.setOutput(`jar-path`, toolPath)
   } catch (error) {
     core.setFailed(error.message)
   }

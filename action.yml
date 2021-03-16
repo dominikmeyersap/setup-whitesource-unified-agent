@@ -1,11 +1,14 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'setup-whitesource-unified-agent'
+description: 'Downloading the Unified Agent JAR to the tools-cache'
+author: 'Dominik Meyer @ SAP SE'
 inputs:
-  milliseconds: # change this
-    required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+  unified-agent-version:
+    required: false
+    description: 'Unified Agent Release to use'
+    default: 'latest'
+outputs:
+  jar-path: 
+    description: 'Location of the downloaded JAR, can be used in following steps to run checks with'
 runs:
   using: 'node12'
   main: 'dist/index.js'
