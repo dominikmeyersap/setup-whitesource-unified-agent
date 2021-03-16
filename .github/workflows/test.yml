@@ -26,5 +26,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./
+        id: setup-ua
         with:
           unified-agent-version: v21.2.2
+
+  run: # make sure the action works on a clean machine without building
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+          java-package: jdk
+      - uses: ./
+        id: setup-ua
+      - run: echo ${{ steps.setup-ua.outputs.jar-path }}
+      - run: java -jar ${{ steps.setup-ua.outputs.jar-path }}
