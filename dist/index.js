@@ -55,9 +55,11 @@ function downloadUnifiedAgent(version) {
         const sanitizedVersion = sanitizeVersion(version);
         const downloadUrl = composeVersionPath(sanitizedVersion);
         core.info(`Downloading ${downloadUrl}`);
+        const toolName = 'wss-unified-agent.jar';
         try {
             const downloadPath = yield tc.downloadTool(downloadUrl);
-            return yield tc.cacheFile(downloadPath, 'wss-unified-agent.jar', 'wss-unified-agent', version);
+            const cachedPath = yield tc.cacheFile(downloadPath, toolName, 'wss-unified-agent', version);
+            return `${cachedPath}/${toolName}`;
         }
         catch (err) {
             throw err;
