@@ -36,8 +36,11 @@ function composeVersionPath(version: string): string {
     : `https://github.com/whitesource/unified-agent-distribution/releases/download/v${version}/wss-unified-agent.jar`
 }
 
-function sanitizeVersion(version: string): string {
-  return version.startsWith('v')
-    ? version.substring(1, version.length - 1).trimRight()
-    : version.trim()
+export function sanitizeVersion(version: string): string {
+  if (version.startsWith('v')) {
+    core.info(`Slicing away the 'v' from ${version}`)
+    return version.substring(1, version.length).trimRight()
+  } else {
+    return version.trim()
+  }
 }

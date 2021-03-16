@@ -36,7 +36,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getUnifiedAgent = void 0;
+exports.sanitizeVersion = exports.getUnifiedAgent = void 0;
 const core = __importStar(__webpack_require__(186));
 const tc = __importStar(__webpack_require__(784));
 function getUnifiedAgent(version) {
@@ -70,10 +70,15 @@ function composeVersionPath(version) {
         : `https://github.com/whitesource/unified-agent-distribution/releases/download/v${version}/wss-unified-agent.jar`;
 }
 function sanitizeVersion(version) {
-    return version.startsWith('v')
-        ? version.substring(1, version.length - 1).trimRight()
-        : version.trim();
+    if (version.startsWith('v')) {
+        core.info(`Slicing away the 'v' from ${version}`);
+        return version.substring(1, version.length).trimRight();
+    }
+    else {
+        return version.trim();
+    }
 }
+exports.sanitizeVersion = sanitizeVersion;
 
 
 /***/ }),
