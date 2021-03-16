@@ -16,15 +16,16 @@ async function downloadUnifiedAgent(version: string): Promise<string> {
   const sanitizedVersion = sanitizeVersion(version)
   const downloadUrl = composeVersionPath(sanitizedVersion)
   core.info(`Downloading ${downloadUrl}`)
-
+  const toolName = 'wss-unified-agent.jar'
   try {
     const downloadPath = await tc.downloadTool(downloadUrl)
-    return await tc.cacheFile(
+    const cachedPath = await tc.cacheFile(
       downloadPath,
-      'wss-unified-agent.jar',
+      toolName,
       'wss-unified-agent',
       version
     )
+    return `${cachedPath}/${toolName}`
   } catch (err) {
     throw err
   }
