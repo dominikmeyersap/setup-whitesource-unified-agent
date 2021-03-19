@@ -130,7 +130,7 @@ function run() {
             const toolPath = yield installer.getUnifiedAgent(uaVersion);
             try {
                 const version = yield version_1.shellCommand(`java -jar ${toolPath} -v`);
-                core.info(`Installed version info:\n${version}`);
+                core.info(`Installed version info: ${version}`);
             }
             catch (err) {
                 core.setFailed(err.message);
