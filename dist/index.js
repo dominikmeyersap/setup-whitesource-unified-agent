@@ -121,12 +121,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__webpack_require__(186));
 const installer = __importStar(__webpack_require__(480));
+const version_1 = __webpack_require__(217);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const uaVersion = core.getInput('unified-agent-version') || 'latest';
             core.debug(`Using Unified Agent in version: ${uaVersion}`);
             const toolPath = yield installer.getUnifiedAgent(uaVersion);
+            try {
+                const version = yield version_1.shellCommand(`java -jar ${toolPath} -v`);
+                core.info(`Installed version info:\n${version}`);
+            }
+            catch (err) {
+                core.setFailed(err.message);
+            }
             core.setOutput(`jar-path`, toolPath);
         }
         catch (error) {
@@ -135,6 +143,43 @@ function run() {
     });
 }
 run();
+
+
+/***/ }),
+
+/***/ 217:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.shellCommand = void 0;
+const child_process_1 = __webpack_require__(129);
+function shellCommand(cmd) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Promise((resolve, reject) => {
+            child_process_1.exec(cmd, (error, stdout, stderr) => {
+                if (error) {
+                    reject(error);
+                }
+                if (stderr) {
+                    reject(new Error(stderr));
+                }
+                resolve(stdout);
+            });
+        });
+    });
+}
+exports.shellCommand = shellCommand;
 
 
 /***/ }),
